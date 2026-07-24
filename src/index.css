@@ -35,13 +35,16 @@ body {
 .app {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  /* 대화 목록이 화면 안에서 스크롤되도록 높이를 확정한다. */
+  height: 100%;
 }
 
 .app-body {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 /* F-2 고지 문구. 모든 화면 아래에 항상 보인다. */

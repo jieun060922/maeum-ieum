@@ -1,0 +1,184 @@
+/* 대화 화면 전용 스타일. index.css와 분리해 충돌을 피한다. */
+
+.chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  min-height: 0;
+}
+
+.chat-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.chat-back {
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.chat-back:hover {
+  border-color: var(--ink);
+}
+
+/* ---------- 대화 목록 ---------- */
+
+.chat-log {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px 16px;
+  overflow-y: auto;
+}
+
+.bubble {
+  max-width: 78%;
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 18px;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  word-break: keep-all;
+  white-space: pre-wrap;
+}
+
+.bubble-ai {
+  align-self: flex-start;
+  border-bottom-left-radius: 6px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.bubble-user {
+  align-self: flex-end;
+  border-bottom-right-radius: 6px;
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* S-4 응답 대기 표시 */
+.bubble-waiting {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 16px;
+}
+
+.bubble-waiting span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--muted);
+  animation: blink 1.2s infinite ease-in-out;
+}
+
+.bubble-waiting span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.bubble-waiting span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bubble-waiting span {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+
+/* ---------- 입력창 ---------- */
+
+.chat-form {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.chat-input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 16px;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.05rem;
+}
+
+.chat-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.chat-input:disabled {
+  opacity: 0.6;
+}
+
+.chat-send {
+  flex: none;
+  padding: 0 22px;
+  min-height: 52px;
+  border: none;
+  border-radius: 14px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.chat-send:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.chat-send:disabled {
+  background: var(--line);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.chat-input:focus-visible,
+.chat-send:focus-visible,
+.chat-back:focus-visible {
+  outline: 4px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* 노년기 사용자를 위해 넓은 화면에서 글자를 키운다 */
+@media (min-width: 640px) {
+  .bubble,
+  .chat-input,
+  .chat-send {
+    font-size: 1.12rem;
+  }
+}
