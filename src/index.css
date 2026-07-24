@@ -1,0 +1,232 @@
+:root {
+  --bg: #f7f8fa;
+  --panel: #ffffff;
+  --ink: #1b1f27;
+  --muted: #5c6673;
+  --line: #e2e6ec;
+  --senior: #2f6f4f;
+  --senior-ink: #ffffff;
+  --youth: #3d4fd6;
+  --youth-ink: #ffffff;
+
+  color-scheme: light;
+  font-family: system-ui, -apple-system, 'Segoe UI', 'Malgun Gothic', sans-serif;
+  line-height: 1.6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+/* ---------- 레이아웃 ---------- */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.app-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* F-2 고지 문구. 모든 화면 아래에 항상 보인다. */
+.notice {
+  margin: 0;
+  padding: 14px 18px calc(14px + env(safe-area-inset-bottom));
+  background: var(--panel);
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.95rem;
+  text-align: center;
+  word-break: keep-all;
+}
+
+/* ---------- 홈 화면 ---------- */
+
+.home {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.home-head {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.logo {
+  margin: 0;
+  font-size: 2.6rem;
+  letter-spacing: -0.02em;
+}
+
+.tagline {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.15rem;
+  word-break: keep-all;
+}
+
+.choice-title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.choices {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  width: 100%;
+}
+
+.choice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 140px;
+  padding: 24px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font: inherit;
+  color: #fff;
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+
+.choice-senior {
+  background: var(--senior);
+  color: var(--senior-ink);
+}
+
+.choice-youth {
+  background: var(--youth);
+  color: var(--youth-ink);
+}
+
+.choice:hover {
+  filter: brightness(1.08);
+}
+
+.choice:active {
+  transform: scale(0.985);
+}
+
+.choice:focus-visible {
+  outline: 4px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.choice-label {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.choice-hint {
+  font-size: 1.05rem;
+  opacity: 0.92;
+  word-break: keep-all;
+}
+
+.home-foot {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* ---------- 대화 화면 (자리표시용) ---------- */
+
+.chat-placeholder {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.chat-placeholder h1 {
+  margin: 0;
+  font-size: 1.9rem;
+}
+
+.chat-placeholder p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.back-link {
+  margin-top: 8px;
+  padding: 12px 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 1.05rem;
+}
+
+.back-link:hover {
+  border-color: var(--ink);
+}
+
+/* ---------- 넓은 화면 ---------- */
+
+@media (min-width: 640px) {
+  .choices {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .logo {
+    font-size: 3rem;
+  }
+
+  .choice {
+    min-height: 180px;
+  }
+}
+
+/* ---------- 어두운 테마 ---------- */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12141a;
+    --panel: #1a1d25;
+    --ink: #e8eaee;
+    --muted: #9aa3b0;
+    --line: #2b3039;
+    --senior: #3d8a63;
+    --youth: #5a68e0;
+
+    color-scheme: dark;
+  }
+}
