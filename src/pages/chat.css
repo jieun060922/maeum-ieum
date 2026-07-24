@@ -1,5 +1,18 @@
 /* 대화 화면 전용 스타일. index.css와 분리해 충돌을 피한다. */
 
+/* 위기 안내 색상. 이 화면에서만 쓰므로 여기에 둔다. */
+:root {
+  --crisis: #b4452f;
+  --crisis-soft: #fdf1ee;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --crisis: #f08a72;
+    --crisis-soft: #2e1c18;
+  }
+}
+
 .chat {
   flex: 1;
   display: flex;
@@ -181,4 +194,101 @@
   .chat-send {
     font-size: 1.12rem;
   }
+}
+
+/* ---------- F-10 위기 안내 ---------- */
+
+.crisis {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 6px 0;
+  padding: 22px 20px;
+  border: 2px solid var(--crisis);
+  border-radius: 18px;
+  background: var(--crisis-soft);
+}
+
+.crisis-title {
+  margin: 0;
+  font-size: 1.3rem;
+  color: var(--crisis);
+  word-break: keep-all;
+}
+
+.crisis-body {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+.crisis-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.crisis-call {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.crisis-call:hover {
+  border-color: var(--crisis);
+}
+
+.crisis-number {
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--crisis);
+}
+
+.crisis-name {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.crisis-note {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.crisis-dismiss {
+  min-height: 52px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+
+.crisis-dismiss:hover {
+  border-color: var(--ink);
+}
+
+.crisis-foot {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.crisis-call:focus-visible,
+.crisis-dismiss:focus-visible {
+  outline: 4px solid var(--ink);
+  outline-offset: 2px;
 }
