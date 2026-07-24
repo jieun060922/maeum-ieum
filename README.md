@@ -69,3 +69,24 @@ src/
 npm install
 npm run dev
 ```
+
+## 배포 (Vercel)
+
+저장소를 Vercel에 한 번 연결해두면, 이후에는 푸시할 때마다 자동으로 배포된다.
+
+- `main`에 병합되면 → 실제 서비스 주소에 반영
+- Pull Request를 올리면 → 그 PR 전용 **미리보기 주소**가 자동 생성 (리더가 이 주소로 확인한 뒤 병합)
+
+**최초 연결 (한 번만)**
+
+1. [vercel.com](https://vercel.com) 접속 → **Continue with GitHub**으로 로그인
+2. **Add New… → Project** → `maeum-ieum` 저장소 **Import**
+3. Framework Preset이 `Vite`로 잡혔는지 확인 (나머지는 기본값 그대로)
+4. **Deploy**
+
+`vercel.json`에 SPA 리라이트가 들어 있어, `/chat` 같은 주소로 바로 접속해도 404가 나지 않는다.
+
+**환경변수**
+
+API 키는 저장소에 올리지 않는다. Vercel 프로젝트의 **Settings → Environment Variables**에 등록하고,
+브라우저에 노출되면 안 되는 키는 서버리스 함수(`api/` 폴더)에서만 사용한다.
