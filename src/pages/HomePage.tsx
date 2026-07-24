@@ -1,21 +1,33 @@
+import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
-import type { Mode } from '../types/mode'
+import {
+  GUARDIAN_AGE,
+  MAX_AGE,
+  MIN_AGE,
+  STAGES,
+  isValidAge,
+  stageInfoOf,
+} from '../types/stage'
 
 type Props = {
-  onSelect: (mode: Mode) => void
+  onSubmitAge: (age: number) => void
 }
 
-const CHOICES: { mode: Mode; label: string; hint: string }[] = [
-  { mode: 'senior', label: '어르신', hint: '오늘 있었던 일을 편하게 이야기해요' },
-  { mode: 'youth', label: '청년', hint: '지금 상태를 정리하고 도움받을 곳을 찾아요' },
-]
-
-/** F-1 모드 선택 화면. 고른 값은 App 상태로 올리고 /chat으로 이동한다. */
-export default function HomePage({ onSelect }: Props) {
+/** F-1 나이 입력 화면. 입력한 나이는 App 상태로만 올리고 /chat으로 이동한다. */
+export default function HomePage({ onSubmitAge }: Props) {
   const navigate = useNavigate()
+  const [value, setValue] = useState('')
 
-  function choose(mode: Mode) {
-    onSelect(mode)
+  const age = Number(value)
+  const valid = value !== '' && isValidAge(age)
+  const stage = valid ? stageInfoOf(age) : null
+  const needsGuardian = valid && age < GUARDIAN_AGE
+  const outOfRange = value !== '' && !valid
+
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault()
+    if (!valid) return
+    onSubmitAge(age)
     navigate('/chat')
   }
 
@@ -30,23 +42,70 @@ export default function HomePage({ onSelect }: Props) {
         </p>
       </header>
 
-      <h2 className="choice-title">어떤 분이 사용하시나요?</h2>
+      <form className="age-form" onSubmit={handleSubmit}>
+        <label className="age-label" htmlFor="age">
+          나이를 알려주세요
+        </label>
 
-      <div className="choices">
-        {CHOICES.map(({ mode, label, hint }) => (
-          <button
-            key={mode}
-            type="button"
-            className={`choice choice-${mode}`}
-            onClick={() => choose(mode)}
-          >
-            <span className="choice-label">{label}</span>
-            <span className="choice-hint">{hint}</span>
-          </button>
-        ))}
-      </div>
+        <div className="age-field">
+          <input
+            id="age"
+            className="age-input"
+            type="text"
+            inputMode="numeric"
+            autoComplete="off"
+            placeholder="00"
+            maxLength={3}
+            value={value}
+            onChange={(e) => setValue(e.target.value.replace(/[^0-9]/g, ''))}
+            aria-describedby="age-help"
+          />
+          <span className="age-unit">세</span>
+        </div>
 
-      <p className="home-foot">회원가입이나 로그인 없이 바로 이용할 수 있어요.</p>
+        <p className="stage-line" aria-live="polite">
+          {stage ? (
+            <>
+              <span className="stage-badge">{stage.label}</span>
+              <span className="stage-range">{stage.range}</span>
+            </>
+          ) : outOfRange ? (
+            <span className="stage-error">
+              {MIN_AGE}세에서 {MAX_AGE}세 사이로 입력해 주세요.
+            </span>
+          ) : (
+            <span className="stage-hint">입력하시면 시기에 맞춰 대화를 준비해요.</span>
+          )}
+        </p>
+
+        {needsGuardian && (
+          <p className="guardian-note">
+            13세 미만이라면 보호자와 함께 이용해 주세요. 힘든 일이 있다면 청소년상담 <b>1388</b>로
+            전화할 수 있어요.
+          </p>
+        )}
+
+        <button type="submit" className="start-button" disabled={!valid}>
+          대화 시작하기
+        </button>
+      </form>
+
+      <section className="stage-guide" aria-label="나이대 구분">
+        <ul>
+          {STAGES.map((s) => (
+            <li key={s.id}>
+              <b>{s.label}</b>
+              <span>{s.range}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <p id="age-help" className="home-foot">
+        나이는 대화 말투를 맞추는 데만 쓰이고, 저장되지 않아요.
+        <br />
+        회원가입이나 로그인 없이 바로 이용할 수 있어요.
+      </p>
     </main>
   )
 }
